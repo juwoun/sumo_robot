@@ -1,0 +1,14 @@
+[Unit]
+Description=IRC sumo robot - Pixy2 to Mega bridge
+After=network.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__DIR__
+ExecStart=/usr/bin/python3 -u __DIR__/robot_pi.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
