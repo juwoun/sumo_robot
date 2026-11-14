@@ -1,0 +1,25 @@
+# 파이썬 임시 파일
+__pycache__/
+*.pyc
+
+# 아두이노 빌드 결과
+build/
+
+# SolidWorks 임시·잠금 파일
+~$*
+*.SLDPRT.bak
+*.SLDASM.bak
+
+# 윈도우 / 맥 시스템 파일
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 큰 영상 파일 (유튜브 링크로 대신하기)
+*.mp4
+*.mov
+*.avi
+
+# 비밀번호·접속 정보가 들어간 파일 (있으면 이름 맞춰서 추가)
+*.env
+secrets*
