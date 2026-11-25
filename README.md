@@ -94,6 +94,9 @@ flowchart TD
 | 📂 [`robot_arduino_2wd/`](robot_arduino_2wd) | Arduino Mega 코드 — **대회 당일 2륜 버전** (드라이버 1개로 구동) |
 | 📂 [`robot_pi/`](robot_pi) | Raspberry Pi 코드 — Pixy2 블록 읽어서 Mega로 전송 |
 | 📂 [`cad/`](cad) | SolidWorks 원본 + 3D 프린팅용 STL (STL은 웹에서 3D로 볼 수 있어요) |
+| 📂 [`sumo_description/`](sumo_description) | **ROS 2 시뮬레이션** — URDF, RViz·Gazebo 실행 파일 ([사용법](sumo_description/README.md)) |
+| 📂 [`tools/make_base_link/`](tools/make_base_link) | SolidWorks 부품별 STL → 시뮬레이션용 몸체 STL + URDF 숫자 계산 |
+| 📂 [`tools/motor_check/`](tools/motor_check) | 모터 4개 회전 확인용 아두이노 코드 |
 | 📂 [`docs/`](docs) | 사진, 경기 영상, [대회 회고](docs/retrospective.md) |
 
 ---
@@ -144,4 +147,6 @@ flowchart TD
 - [ ] 💻 멈춤 감지 코드, 컬러센서 현장 보정 모드
 - [ ] 🧹 커넥터 · PCB로 배선 정리
 - [ ] 👁️ Pixy2 대신 OpenCV 영상분석 시도
+- [x] 🖥️ ROS 2 시뮬레이션 기본 — SolidWorks 모델 → URDF → RViz·Gazebo 키보드 조종 ([사용법](sumo_description/README.md))
+- [ ] 📷 시뮬레이션에 카메라 · 컬러센서 · 경기장 넣고 판단 코드 연결 ([할 일 목록](sumo_description/README.md#6-다음-할-일-todo))
 - [ ] 📆 조립하면서 코드도 같이 시작, 대회 2~3주 전 완성
