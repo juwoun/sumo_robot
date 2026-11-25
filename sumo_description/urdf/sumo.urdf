@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  IRC 씨름로봇 URDF (ROS 2 Jazzy + Gazebo Harmonic)
+  좌표 규칙: X = 앞, Y = 왼쪽, Z = 위 / 단위: m, kg, rad
+  base_link 원점 = 바퀴 4개의 정중앙, 바퀴 축 높이 (바닥에서 0.05 m 위)
+  숫자 출처: SolidWorks 어셈블리에서 뽑은 STL을 측정 (2026-11-25)
+-->
+<robot name="sumo">
+
+  <!-- ===== 색 (RViz에서 보이는 색) ===== -->
+  <material name="gray">  <color rgba="0.75 0.75 0.75 1.0"/> </material>
+  <material name="black"> <color rgba="0.15 0.15 0.15 1.0"/> </material>
+
+  <!-- ===================================================== -->
+  <!-- 1. 몸체 (base_link): f1, f2, 모터, 파이, 뚜껑, 모자거치대 전부 -->
+  <!-- ===================================================== -->
+  <link name="base_link">
+
+    <!-- visual: 화면에 보이는 모양. SolidWorks에서 뽑은 STL 그대로 -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://sumo_description/meshes/base_link.STL"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+
+    <!-- collision: 충돌 계산용 모양. 계산이 빠르도록 단순한 박스로 -->
+    <!-- 박스 크기 = 몸체 전체 크기(모자거치대 제외): 길이 302 x 폭 301 x 높이 121 mm -->
+    <collision>
+      <origin xyz="0.0267 0 0.0212" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.3022 0.3007 0.1207"/>
+      </geometry>
+    </collision>
+
+    <!-- inertial: 무게와 관성. 로봇 전체 3.8 kg - 바퀴 4개(0.1 kg씩) = 3.4 kg -->
+    <!-- 관성값은 위 박스를 꽉 찬 상자로 보고 계산: I = m/12 * (가로^2 + 세로^2) -->
+    <inertial>
+      <origin xyz="0.0267 0 0.0212" rpy="0 0 0"/>
+      <mass value="3.4"/>
+      <inertia ixx="0.029747" ixy="0" ixz="0"
+               iyy="0.030003" iyz="0"
+               izz="0.051495"/>
+    </inertial>
+  </link>
+
+  <!-- ===================================================== -->
+  <!-- 2. 바퀴 4개 (모두 같은 모양: 지름 100 mm, 폭 40 mm)       -->
+  <!--    wheel.STL은 바퀴 축이 Y방향이라 회전 없이 그대로 씀     -->
+  <!--    관성: 원통 공식 Iyy = m*r^2/2, Ixx = Izz = m*(3r^2+h^2)/12 -->
+  <!-- ===================================================== -->
+
+  <!-- 앞왼쪽 바퀴 (SolidWorks 바퀴-4) -->
+  <link name="front_left_wheel">
+    <visual>
+      <geometry> <mesh filename="package://sumo_description/meshes/wheel.STL"/> </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <!-- URDF 원통은 기본이 Z축 방향이라, X축으로 90도(1.5708 rad) 돌려서 Y축 방향으로 눕힘 -->
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry> <cylinder radius="0.05" length="0.04"/> </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="7.583e-05" ixy="0" ixz="0" iyy="1.25e-04" iyz="0" izz="7.583e-05"/>
+    </inertial>
+  </link>
+
+  <!-- 앞오른쪽 바퀴 (SolidWorks 바퀴-3) -->
+  <link name="front_right_wheel">
+    <visual>
+      <geometry> <mesh filename="package://sumo_description/meshes/wheel.STL"/> </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry> <cylinder radius="0.05" length="0.04"/> </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="7.583e-05" ixy="0" ixz="0" iyy="1.25e-04" iyz="0" izz="7.583e-05"/>
+    </inertial>
+  </link>
+
+  <!-- 뒤왼쪽 바퀴 (SolidWorks 바퀴-2) -->
+  <link name="rear_left_wheel">
+    <visual>
+      <geometry> <mesh filename="package://sumo_description/meshes/wheel.STL"/> </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry> <cylinder radius="0.05" length="0.04"/> </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="7.583e-05" ixy="0" ixz="0" iyy="1.25e-04" iyz="0" izz="7.583e-05"/>
+    </inertial>
+  </link>
+
+  <!-- 뒤오른쪽 바퀴 (SolidWorks 바퀴-1) -->
+  <link name="rear_right_wheel">
+    <visual>
+      <geometry> <mesh filename="package://sumo_description/meshes/wheel.STL"/> </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry> <cylinder radius="0.05" length="0.04"/> </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="7.583e-05" ixy="0" ixz="0" iyy="1.25e-04" iyz="0" izz="7.583e-05"/>
+    </inertial>
+  </link>
+
+  <!-- ===================================================== -->
+  <!-- 3. 관절 (joint): 몸체와 바퀴를 연결                       -->
+  <!--    continuous = 끝없이 계속 도는 회전 관절 (바퀴용)          -->
+  <!--    origin = 몸체 원점에서 바퀴 중심까지 거리                  -->
+  <!--      앞뒤 간격 105 mm  -> x = +-0.0525                     -->
+  <!--      좌우 간격 239 mm  -> y = +-0.1196                     -->
+  <!--    axis 0 1 0 = Y축을 중심으로 회전                         -->
+  <!-- ===================================================== -->
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0.0525 0.1196 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0.0525 -0.1196 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_left_wheel"/>
+    <origin xyz="-0.0525 0.1196 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_right_wheel"/>
+    <origin xyz="-0.0525 -0.1196 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ===================================================== -->
+  <!-- 4. Gazebo 전용 설정 (RViz는 이 부분을 무시함)              -->
+  <!-- ===================================================== -->
+
+  <!-- 바퀴 마찰계수: mu1 = 굴러가는 방향, mu2 = 옆 방향 -->
+  <gazebo reference="front_left_wheel">  <mu1>1.0</mu1> <mu2>1.0</mu2> </gazebo>
+  <gazebo reference="front_right_wheel"> <mu1>1.0</mu1> <mu2>1.0</mu2> </gazebo>
+  <gazebo reference="rear_left_wheel">   <mu1>1.0</mu1> <mu2>1.0</mu2> </gazebo>
+  <gazebo reference="rear_right_wheel">  <mu1>1.0</mu1> <mu2>1.0</mu2> </gazebo>
+
+  <gazebo>
+    <!-- 차동구동 플러그인: /cmd_vel(전진 속도, 회전 속도)을 받아서 좌우 바퀴를 돌림 -->
+    <!-- 4륜이라 왼쪽 2개, 오른쪽 2개를 각각 한 묶음으로 같이 돌림 (스키드 스티어) -->
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>front_left_wheel_joint</left_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+      <wheel_separation>0.2392</wheel_separation>   <!-- 좌우 바퀴 중심 간격 (m) -->
+      <wheel_radius>0.05</wheel_radius>             <!-- 바퀴 반지름 (m) -->
+      <topic>/cmd_vel</topic>
+      <odom_topic>/odom</odom_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <odom_publisher_frequency>30</odom_publisher_frequency>
+    </plugin>
+
+    <!-- 바퀴 관절 각도를 /joint_states 로 내보냄 (robot_state_publisher가 받아서 바퀴 위치 계산) -->
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>/joint_states</topic>
+    </plugin>
+  </gazebo>
+
+</robot>
